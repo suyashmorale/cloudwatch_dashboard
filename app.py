@@ -561,21 +561,8 @@ if "firstTs" in summary_df.columns:
 
 st.markdown("**Click on any correlation ID in the table below to view its logs:**")
 
-# Prefer data_editor for reliable single-row selection across Streamlit versions
+# Use st.dataframe with selection for single-row selection
 selected_row_index = 0
-ed = st.data_editor(
-    summary_df,
-    use_container_width=True,
-    hide_index=True,
-    disabled=True,
-    key="summary_grid",
-    height=min(560, 38 * (len(summary_df) + 1)),
-    column_config={c: st.column_config.TextColumn() for c in summary_df.columns},
-)
-
-# If the newer st.dataframe selection API is available, use it; else fallback to first row.
-# (Keeping your original approach as a best-effort compatibility shim.)
-_selected_cid = None
 try:
     df_widget = st.dataframe(
         summary_df,
